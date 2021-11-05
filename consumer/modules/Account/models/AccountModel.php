@@ -186,14 +186,20 @@ class AccountModel extends Main_Model
 
     public function find_account($post)
     {
+        $message=['status' => 'false','message' => "your account could not be found"]  ;
 
         if (isset($post['email'])) {
-            $result = $this->db->select('')->from('tbl_account')->where('email', $post['email'])->get()->result();
-         
+            $result = $this->db->select('full_name,id')->from('tbl_account')->where('email', $post['email'])->get()->row();
+         if($result) {
+           $message=['status' => 'true','message' => $result]  ;
+         }
         }   
-         elseif (isset($post['phone_number'])) {
-            $result = $this->db->select('count(id) as count')->from('tbl_account')->where('email', $post['email'])->get()->result();
-         
+         elseif(isset($post['phone_number'])) {
+            $result = $this->db->select('full_name,id')->from('tbl_account')->where('phone_number', $post['phone_number'])->get()->row();
+            if($result) {
+                $message=['status' => 'true','message' => $result]  ;
+              }
         }
+        return $message; 
     }
 }

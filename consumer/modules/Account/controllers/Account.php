@@ -44,19 +44,13 @@ class Account extends API
 
     public function find_post()
     {
-        $this->response([
-            "status" => true,
-            "message" => [
-                "id" => "",
-                "name" => "",
-            ]
-        ]);
+        $result = $this->AccountModel->find_account($this->post());
+        $this->api_response($result, REST::HTTP_OK);
     }
 
 
     public function sign_up_post()
     {
-        $post=$this->post();
         $result = $this->AccountModel->sign_up($this->post());
         $this->api_response($result, REST::HTTP_OK);
     }
